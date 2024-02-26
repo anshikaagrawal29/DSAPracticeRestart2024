@@ -1,0 +1,93 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+using System.Collections.Generic;
+
+public class Graph
+{
+    LinkedList<int>[] arr;
+    int _V;
+    public Graph(int v)
+    {
+         arr =new LinkedList<int>[v];
+        for(int i=0; i <v; i++)
+        {
+            arr[i] = new LinkedList<int>();
+        }
+        _V = v;
+    }
+    
+    public void AddEdge(int s, int e)
+    {
+        arr[s].AddLast(e);
+    }
+    
+    public void traverse(int s)
+    {
+        bool[] visited = new bool[_V];
+        for(int i=0; i< _V; i++)
+            visited[i] = false;
+        
+        int X = 2;
+        Queue<int> q = new Queue<int>();
+        q.Enqueue(s);
+        visited[s] = true;
+        int level = 1;
+        if(X == 0)
+            Console.Write("found");
+            bool flag = true;
+        while(q.Count > 0 && flag)
+        {
+            int size = q.Count;
+            while(size > 0)
+            {
+                int q1 = q.Dequeue();
+                LinkedList<int> list = arr[q1];
+                foreach(int elem in list)
+                {
+                    if(!visited[elem])
+                    {
+                        if(elem == X)
+                        {
+                            Console.Write("level : " + level);
+                            flag = false;
+                        }
+                        q.Enqueue(elem);
+                        visited[elem] = true;
+                    }
+                }
+                size--;
+            }
+            level++;
+        }
+    }
+    public static void Main(string[] args)
+    {
+        Graph g = new Graph(70);
+        g.AddEdge(0,4);
+        g.AddEdge(4,61);
+        g.AddEdge(4,9);
+        g.AddEdge(9,60);
+        g.AddEdge(61,16);
+        g.AddEdge(9,58);
+        g.AddEdge(60,2);
+        g.AddEdge(2,26);
+        g.AddEdge(0,49);
+        g.AddEdge(26,47);
+        g.AddEdge(16,69);
+        g.AddEdge(69,54);
+        g.AddEdge(69,18);
+        g.AddEdge(26,11);
+        g.AddEdge(69,35);
+        g.AddEdge(35,59);
+        g.AddEdge(26,66);
+        g.AddEdge(66,1);
+         g.AddEdge(9,12);
+        g.AddEdge(58,52);
+        g.AddEdge(26,21);
+        g.AddEdge(49,14);
+        
+        g.traverse(0);
+    }
+}
