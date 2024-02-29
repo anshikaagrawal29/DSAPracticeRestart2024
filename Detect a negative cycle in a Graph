@@ -1,0 +1,95 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+using System.Collections.Generic;
+
+public class Graph
+{
+    int V;
+    List<Tuple<int,int>>[] arr;
+    int sum =0;
+    bool flag = false;
+    
+    public Graph(int v)
+    {
+        V = v;
+        arr = new List<Tuple<int,int>>[v];
+       
+        for(int i=0;i<v;i++)
+        {
+            arr[i] = new List<Tuple<int,int>>();
+        }
+    }
+    
+    public void AddEdge(int u, int v,int value)
+    {
+        if(u == v && value <0)
+        {
+            flag = true; return;
+        }
+        
+            
+        arr[u].Add(new Tuple<int,int>(v,value));
+    }
+    
+    public bool isCycle(int i,  bool[] vis,  bool[] pvis)
+    {
+        if(pvis[i])
+            return true;
+        
+        if(vis[i])
+            return false;
+            
+        vis[i] = true;
+        pvis[i] = true;
+        
+        foreach(Tuple<int,int> elem in arr[i])
+        {
+            Tuple<int,int> t1 = elem;
+            int node = t1.Item1;
+            int value = t1.Item2;
+            
+             sum += value;
+             if(isCycle(node, vis, pvis))
+                return true;
+            sum -= value;
+        }
+        
+        pvis[i] = false;
+        return false;
+    }
+    public bool checkNegativeCycle()
+    {
+        bool[] vis = new bool[V];
+        bool[] pvis = new bool[V];
+        
+        for(int i=0;i <V; i++)
+        {
+            if(isCycle(i, vis, pvis))
+            {
+                if(sum > 0)
+                    return false;
+                else
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public static void Main(string[] args)
+    {
+        Graph g = new Graph(4);
+        g.AddEdge(0,3,6);
+        g.AddEdge(3,1,2);
+        g.AddEdge(0,1,4);
+        g.AddEdge(1,2,6);
+        g.AddEdge(2,2,60);
+       
+        if(!g.flag)
+            Console.Write(g.checkNegativeCycle());
+        else
+            Console.Write("True");
+    }
+}
