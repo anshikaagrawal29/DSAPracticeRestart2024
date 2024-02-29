@@ -1,0 +1,153 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+using System.Collections;
+
+public class LinkedList
+{
+    public Node head;
+    
+    
+    public class Node
+    {
+        public  int data;
+        public Node next;
+        public Node(int d)
+        {
+            data = d;
+            next = null;
+        }
+    }
+    
+    public void traverse()
+    {
+        Node curr = head;
+        while(curr != null)
+        {
+            Console.Write(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+    
+    public void insertAtStart(int val)
+    {
+        Node curr = head;
+        Node temp = new Node(val);
+        temp.next = head;
+        head = temp;
+    }
+    
+    public void insertAtEnd(int val)
+    {
+        Node n = new Node(val);
+        //time com: O(n)
+        Node last = head;
+        while(last.next != null)
+        {
+            last = last.next;
+        }
+        last.next = n;
+    }
+    
+    public void insertAfterGivenNode(int val, int givenVal)
+    {
+        Node n = new Node(val);
+        Node next1 =null;
+        Node curr = head;
+        
+        //after head
+        while(curr != null)
+        {   
+            //head
+            if(curr == head && curr.data == givenVal)
+            {
+                next1 = curr.next;
+                curr.next =n;
+                n.next = next1;
+                break;
+            }
+            else
+            {
+                if(curr.data == givenVal)
+                {
+                    next1 = curr.next;
+                    curr.next = n;
+                    n.next = next1;
+                    break;
+                }
+            }
+            
+            curr = curr.next;
+        }
+        
+        
+    }
+    
+    //deletion
+    public void deleteFront()
+    {
+       head = head.next;
+        
+    }
+    
+    public void deleteAtEnd()
+    {
+      Node curr = head;
+      Node prev = null;
+      while(curr.next != null)
+      {
+          prev = curr;
+          curr = curr.next;
+      }
+      if(curr == head)
+        head = null;
+        
+      prev.next = null;
+    }
+    
+    public void deleteSpecificNode(int val)
+    {
+        if(head.data == val && head.next == null)
+        {
+            head = null;
+            return;
+        }
+            
+            
+        if(head.data == val)
+        {
+            head = head.next;
+            return;
+        }
+            
+        Node curr = head;
+        Node prev = null;
+        while(curr != null)
+        {
+            if(curr.data == val)
+            {
+                prev.next = curr.next;
+                break;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+    }
+    
+    public static void Main(string[] args)
+    {
+       LinkedList l = new LinkedList();
+       Node n1 = new Node(1);
+       Node n2 = new Node(2);
+       n1.next = n2;
+       l.head = n1;
+       l.insertAtStart(3);
+       l.insertAtEnd(4);
+       l.insertAfterGivenNode(5,4);
+       //l.deleteFront();
+       //l.deleteAtEnd();
+       l.deleteSpecificNode(5);
+       l.traverse();
+    }
+}
